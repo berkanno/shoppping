@@ -43,22 +43,18 @@
                         :class="{ 'on-hover': isHovering }"
                         v-bind="props"
                       >
-                        <router-link
-                          :to="item.routerlink"
-                          class="text-decoration-none"
-                        >
+                        <router-link :to="item.routerlink" class="text-decoration-none">
                           <v-card
                             height="100%"
                             class="bg-purple-lighten-1 d-flex align-center justify-center"
                           >
-                          <v-col cols="12">
-
-                            <v-card-title
-                            class="text-h4 font-weight-medium text-center py-5 text-uppercase"
-                            >
-                            {{ item.title }}
-                          </v-card-title>
-                        </v-col>
+                            <v-col cols="12">
+                              <v-card-title
+                                class="text-h4 font-weight-medium text-center py-5 text-uppercase"
+                              >
+                                {{ item.title }}
+                              </v-card-title>
+                            </v-col>
                           </v-card>
                         </router-link>
                       </v-card>
@@ -149,6 +145,4 @@ export default {
 .cardHover:not(.on-hover) {
   opacity: 0.3;
 }
-
-
 </style>
