@@ -47,12 +47,18 @@
   </v-row>
 </template>
 <script>
+import axios from "axios";
 export default {
   data() {
     return {
       getEmail: "",
       getPassword: "",
     };
+  },
+  mounted() {
+    axios
+      .get("https://exe-shopping-default-rtdb.firebaseio.com/users.json")
+      .then.catch((e) => console.log("hata"));
   },
 };
 </script>

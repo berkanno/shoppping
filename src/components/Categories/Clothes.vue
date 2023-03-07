@@ -9,7 +9,7 @@
             :key="item"
             class="mb-4"
           >
-            <v-card height="355" width="100%">
+            <v-card height="355" width="100%" elevation="3">
               <v-carousel
                 height="180"
                 hide-delimiters
@@ -33,10 +33,23 @@
               <v-row>
                 <v-col cols="12">
                   <v-card flat height="50">
-                    <v-card-text
-                      class="text-h4 text-center text-purple-darken-1"
-                      >{{ item.price }}$</v-card-text
-                    >
+                    <v-row>
+                      <v-col cols="6">
+                        <v-card-text
+                          class="text-h6 text-end text-purple-darken-1"
+                          >{{ item.price }}$</v-card-text
+                        >
+                      </v-col>
+                      <v-col cols="6" class="text-center">
+                        <v-icon
+                          size="30"
+                          :icon="item.likeIcon"
+                          end
+                          class="mt-3"
+                          :color="item.likeIconColor"
+                        ></v-icon>
+                      </v-col>
+                    </v-row>
                   </v-card>
                 </v-col>
               </v-row>
@@ -45,13 +58,13 @@
                   width="100%"
                   height="100%"
                   color="purple-darken-4"
-                  @click="($event) => onClick(i, counter++)"
+                  @click="($event) => onClick(i, showCounter++)"
                   variant="outlined"
                 >
                   <v-icon
                     color="purple-darken-4"
                     size="50"
-                    :icon="item.icon"
+                    :icon="item.showIcon"
                   ></v-icon>
                 </v-btn>
               </v-card-actions>
@@ -114,34 +127,34 @@
 </template>
 <script>
 import axios from "axios";
-import { toHandlers } from "vue";
 export default {
   data() {
     return {
       getData: [],
-      counter: 3,
+      showCounter: 3,
       number: 0,
     };
   },
   methods: {
     onClick(i) {
-      if (this.counter % 2) {
+      if (this.showCounter % 2) {
         if (this.getData[i].showDetails == false) {
-          this.getData[i].icon = "mdi-chevron-down";
+          this.getData[i].showIcon = "mdi-chevron-down";
           this.getData[i].showDetails = true;
         } else {
-          this.getData[i].icon = "mdi-chevron-right";
+          this.getData[i].showIcon = "mdi-chevron-right";
           this.getData[i].showDetails = false;
         }
       } else {
         if (this.getData[i].showDetails == true) {
-          this.getData[i].icon = "mdi-chevron-right";
+          this.getData[i].showIcon = "mdi-chevron-right";
           this.getData[i].showDetails = false;
         } else {
-          this.getData[i].icon = "mdi-chevron-down";
+          this.getData[i].showIcon = "mdi-chevron-down";
           this.getData[i].showDetails = true;
         }
-      }
+      };
+      
       return;
     },
     selectNumber(i) {
@@ -159,9 +172,11 @@ export default {
       .then((response) => {
         this.getData = response.data.filter((x) => x.category.id == 1);
         for (let i = 0; i < this.getData.length; i++) {
-          this.getData[i].icon = "mdi-chevron-right";
+          this.getData[i].showIcon = "mdi-chevron-right";
           this.getData[i].showDetails = false;
           this.getData[i].showNumber = 0;
+          this.getData[i].likeIcon = "mdi-heart-outline";
+          this.getData[i].likeIconColor = "black";
         }
       })
       .catch((e) => console.log("hata"));
