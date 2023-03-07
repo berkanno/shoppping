@@ -9,6 +9,7 @@
             variant="outlined"
             clearable
             placeholder="john"
+            v-model="sendToFirstName"
           ></v-text-field>
 
           <v-text-field
@@ -17,6 +18,7 @@
             variant="outlined"
             clearable
             placeholder="doe"
+            v-model="sendToLastName"
           ></v-text-field>
 
           <v-text-field
@@ -26,6 +28,7 @@
             placeholder="johndoe@gmail.com"
             type="email"
             clearable
+            v-model="sendToEmail"
           ></v-text-field>
 
           <v-text-field
@@ -35,11 +38,13 @@
             variant="outlined"
             type="password"
             clearable
+            v-model="sendToPassword"
           ></v-text-field>
 
           <v-checkbox
             color="purple-darken-1"
             label="I agree to site terms and conditions"
+            v-model="sendCheckBox"
           ></v-checkbox>
         </v-container>
 
@@ -49,10 +54,11 @@
               <router-link to="/login"> Sing in </router-link>
             </v-col>
             <v-col cols="3">
-              <v-btn class="bg-purple-darken-4">
-                <router-link to="/" class="text-decoration-none text-white">
-                  Sing up
-                </router-link>
+              <v-btn
+                class="bg-purple-darken-4"
+                @click="($event) => sendToUser()"
+              >
+                Sing up
               </v-btn>
             </v-col>
           </v-row>
@@ -61,3 +67,31 @@
     </v-col>
   </v-row>
 </template>
+
+<script>
+import axios from "axios";
+export default {
+  data() {
+    return {
+      sendToFirstName: "",
+      sendToLastName: "",
+      sendToEmail: "",
+      sendToPassword: "",
+      sendToCheckBox: false,
+    };
+  },
+  methods: {
+    sendToUser() {
+      axios
+        .post("https://exe-shopping-default-rtdb.firebaseio.com/users.json", {
+          userName: this.sendToFirstName,
+          userLastName: this.sendToLastName,
+          userEmail: this.sendToEmail,
+          userPassword: this.sendToPassword,
+        })
+        .then((res) => console.log(res.status))
+        .catch((e) => console.log("hata"));
+    },
+  },
+};
+</script>

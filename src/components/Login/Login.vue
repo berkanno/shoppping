@@ -11,6 +11,7 @@
               clearable
               color="purple-darken-3"
               variant="outlined"
+              v-model="getEmail"
             ></v-text-field>
           </v-card-text>
           <v-card-text>
@@ -21,6 +22,7 @@
               hint="Enter your password to access this website"
               color="purple-darken-3"
               clearable
+              v-model="getPassword"
             ></v-text-field>
           </v-card-text>
           <v-card-actions class="mr-2">
@@ -32,10 +34,9 @@
               </v-col>
               <v-col cols="3">
                 <v-btn color=" text-white " class="mb-10 bg-purple-darken-4">
-                    <router-link to="/" class="text-decoration-none text-white">
-
-                        Sing in
-                    </router-link>
+                  <router-link to="/" class="text-decoration-none text-white">
+                    Sing in
+                  </router-link>
                 </v-btn>
               </v-col>
             </v-row>
@@ -45,3 +46,13 @@
     </v-col>
   </v-row>
 </template>
+<script>
+export default {
+  data() {
+    return {
+      getEmail: "",
+      getPassword: "",
+    };
+  },
+};
+</script>
