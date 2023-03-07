@@ -4,7 +4,7 @@
       <v-container>
         <v-row justify="center">
           <v-col cols="3" v-for="(item, i) in getData.slice(0, 32)" :key="item">
-            <v-card height="338" elevation="24" class="mb-5">
+            <v-card height="338" class="mb-5" width="100%">
               <v-carousel
                 height="180"
                 hide-delimiters
@@ -18,9 +18,10 @@
               <v-row>
                 <v-col cols="12">
                   <v-card height="50" flat>
-                    <v-card-text class="text-overline text-center">{{
-                      item.title
-                    }}</v-card-text>
+                    <v-card-text
+                      class="text-overline text-center text-purple-darken-4"
+                      >{{ item.title }}</v-card-text
+                    >
                   </v-card>
                 </v-col>
               </v-row>
@@ -28,22 +29,33 @@
                 <v-col cols="12">
                   <v-card flat height="36">
                     <v-card-text
-                      class="text-h6 text-center text-purple-darken-1"
+                      class="text-overline text-center text-purple-darken-1"
                       >{{ item.price }}$</v-card-text
                     >
                   </v-card>
                 </v-col>
               </v-row>
 
-              <v-btn class="mt-3" width="100%" flat>
+              <v-btn
+                class="mt-3"
+                width="100%"
+                flat
+                @click="($event) => onClick(i, counter++)"
+              >
                 <v-icon
-                  :icon="getData[i].icon[counter % 2]"
                   color="purple-darken-4"
-                  @click="($event) => getData[i].counter[0]++"
                   size="40"
+                  :icon="item.icon"
                 ></v-icon>
               </v-btn>
             </v-card>
+            <v-col
+              cols="12"
+              class="text-center text-overline text-purple-darken-4"
+              v-if="item.showDetails"
+            >
+              {{ item.description }}
+            </v-col>
           </v-col>
         </v-row>
       </v-container>
@@ -56,34 +68,50 @@ export default {
   data() {
     return {
       getData: [],
-      counter: 0,
-      show: "0",
-      getSelect: [],
+      counter: 3,
     };
   },
-   watch:{ counter(value){
-
-       console.log(value)
-   }
-   },
+  methods: {
+    onClick(i) {
+      if (this.counter % 2) {
+        if (this.getData[i].showDetails == false) {
+          this.getData[i].icon = "mdi-chevron-right";
+          this.getData[i].showDetails = true;
+        } else {
+          this.getData[i].icon = "mdi-chevron-right";
+          this.getData[i].showDetails = false;
+        }
+      } else {
+        if (this.getData[i].showDetails == true) {
+          this.getData[i].icon = "mdi-chevron-down";
+          this.getData[i].showDetails = false;
+        } else {
+          this.getData[i].icon = "mdi-chevron-down";
+          this.getData[i].showDetails = true;
+        }
+      }
+      return;
+    },
+  },
+  watch: {
+    counter(value) {
+      console.log(value);
+    },
+  },
 
   beforeMount() {
     axios
       .get("https://api.escuelajs.co/api/v1/products")
       .then((response) => {
-        this.getData = response.data.filter((x) => x.category.name == "Clothe");
+        this.getData = response.data.filter(
+          (x) => x.category.name == "Clothes"
+        );
         for (let i = 0; i < this.getData.length; i++) {
-          this.getData[i].icon = ["mdi-chevron-right", "mdi-chevron-down"];
-          this.getData[i].counter= {'counter' : 0}
+          this.getData[i].icon = "mdi-chevron-right";
+          this.getData[i].showDetails = false;
         }
-
-        console.log(this.getData[1].counter);
-        console.log(this.getData)
       })
       .catch((e) => console.log("hata"));
-  },
-  updated() {
-    console.log(get[i].counterr[0].counter)
   },
 };
 </script>
