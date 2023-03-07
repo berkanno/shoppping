@@ -47,6 +47,7 @@
                           end
                           class="mt-3"
                           :color="item.likeIconColor"
+                          @click="($event) => onIconClick(i, likeCounter++)"
                         ></v-icon>
                       </v-col>
                     </v-row>
@@ -58,7 +59,7 @@
                   width="100%"
                   height="100%"
                   color="purple-darken-4"
-                  @click="($event) => onClick(i, showCounter++)"
+                  @click="($event) => onShowClick(i, showCounter++)"
                   variant="outlined"
                 >
                   <v-icon
@@ -132,12 +133,13 @@ export default {
     return {
       getData: [],
       showCounter: 3,
+      likeCounter: 3,
       number: 0,
     };
   },
   methods: {
-    onClick(i) {
-      if (this.showCounter % 2) {
+    onShowClick(i) {
+      if (this.showCounter % 2 == true) {
         if (this.getData[i].showDetails == false) {
           this.getData[i].showIcon = "mdi-chevron-down";
           this.getData[i].showDetails = true;
@@ -145,7 +147,7 @@ export default {
           this.getData[i].showIcon = "mdi-chevron-right";
           this.getData[i].showDetails = false;
         }
-      } else {
+      } else if (this.showCounter % 2 == false) {
         if (this.getData[i].showDetails == true) {
           this.getData[i].showIcon = "mdi-chevron-right";
           this.getData[i].showDetails = false;
@@ -153,10 +155,29 @@ export default {
           this.getData[i].showIcon = "mdi-chevron-down";
           this.getData[i].showDetails = true;
         }
-      };
-      
+      }
       return;
     },
+    onIconClick(i) {
+      if (this.likeCounter % 2) {
+        if ((this.getData[i].likeIconColor = "red")) {
+          this.getData[i].likeIcon = "mdi-heart-outline";
+          this.getData[i].likeIconColor = "black";
+        } else {
+          this.getData[i].likeIcon = "mdi-heart";
+          this.getData[i].likeIconColor = "red";
+        }
+      } else {
+        if ((this.getData[i].likeIconColor = "black")) {
+          this.getData[i].likeIcon = "mdi-heart";
+          this.getData[i].likeIconColor = "red";
+        } else {
+          this.getData[i].likeIcon = "mdi-heart-outline";
+          this.getData[i].likeIconColor = "black";
+        }
+      }
+    },
+
     selectNumber(i) {
       this.getData[i].showNumber += this.number;
       if (this.getData[i].showNumber < 0) {
