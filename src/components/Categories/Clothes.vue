@@ -1,6 +1,5 @@
 <template>
   <v-row justify="center">
-    <v-col cols="12">{{ counter }}</v-col>
     <v-col cols="10">
       <v-container>
         <v-row justify="center">
@@ -124,9 +123,10 @@
 </template>
 <script>
 import axios from "axios";
-
+import { mapActions } from "pinia";
+import { useAppStore } from "@/store/app";
+import { mapState } from "pinia";
 export default {
-  name: "calıs",
   data() {
     return {
       getData: [],
@@ -135,7 +135,11 @@ export default {
       number: 0,
     };
   },
+  computed: {
+    ...mapState(useAppStore, ["shoppingCount"]),
+  },
   methods: {
+    ...mapActions(useAppStore, ["addShopItem"]),
     onShowClick(i) {
       if (this.getData[i].showIcon == "mdi-chevron-right") {
         this.getData[i].showIcon = "mdi-chevron-down";
@@ -161,6 +165,7 @@ export default {
         this.getData[i].showNumber = 0;
       }
       this.number = 0;
+      this.addShopItem(this.getData.filter((x) => x.showNumber != 0));
     },
   },
 

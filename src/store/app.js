@@ -3,14 +3,16 @@ import { defineStore } from "pinia";
 
 export const useAppStore = defineStore("app", {
   state: () => ({
-    counter: 4,
+    shoppingCount: [],
   }),
-  getters: {
-    doubleCounter: (state) => state.counter * 3,
+  getters:{
+    getState(state){
+      return state;
+    }
   },
   actions: {
-    increaseCount(newVal) {
-       this.counter=newVal;
+    addShopItem(val) {
+      return this.shoppingCount=val;
     },
   },
 });
