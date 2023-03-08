@@ -47,7 +47,7 @@
                           end
                           class="mt-3"
                           :color="item.likeIconColor"
-                          @click="($event) => onIconClick(i, likeCounter++)"
+                          @click="($event) => onIconClick(i)"
                         ></v-icon>
                       </v-col>
                     </v-row>
@@ -59,7 +59,7 @@
                   width="100%"
                   height="100%"
                   color="purple-darken-4"
-                  @click="($event) => onShowClick(i, showCounter++)"
+                  @click="($event) => onShowClick(i)"
                   variant="outlined"
                 >
                   <v-icon
@@ -133,58 +133,36 @@ export default {
     return {
       getData: [],
       showCounter: 3,
-      likeCounter: 3,
       number: 0,
     };
   },
   methods: {
     onShowClick(i) {
-      if (this.showCounter % 2 == true) {
-        if (this.getData[i].showDetails == false) {
-          this.getData[i].showIcon = "mdi-chevron-down";
-          this.getData[i].showDetails = true;
-        } else {
-          this.getData[i].showIcon = "mdi-chevron-right";
-          this.getData[i].showDetails = false;
-        }
-      } else if (this.showCounter % 2 == false) {
-        if (this.getData[i].showDetails == true) {
-          this.getData[i].showIcon = "mdi-chevron-right";
-          this.getData[i].showDetails = false;
-        } else {
-          this.getData[i].showIcon = "mdi-chevron-down";
-          this.getData[i].showDetails = true;
-        }
+      if ((this.getData[i].showIcon == "mdi-chevron-right")) {
+        this.getData[i].showIcon = "mdi-chevron-down";
+        this.getData[i].showDetails = true;
+      } else if ((this.getData[i].showIcon == "mdi-chevron-down")) {
+        this.getData[i].showIcon = "mdi-chevron-right";
+        this.getData[i].showDetails = false;
       }
-      return;
     },
     onIconClick(i) {
-      if (this.likeCounter % 2) {
-        if ((this.getData[i].likeIconColor = "red")) {
-          this.getData[i].likeIcon = "mdi-heart-outline";
-          this.getData[i].likeIconColor = "black";
-        } else {
-          this.getData[i].likeIcon = "mdi-heart";
-          this.getData[i].likeIconColor = "red";
-        }
+      if (this.getData[i].likeIconColor == "black") {
+        this.getData[i].likeIcon = "mdi-heart";
+        this.getData[i].likeIconColor = "red";
       } else {
-        if ((this.getData[i].likeIconColor = "black")) {
-          this.getData[i].likeIcon = "mdi-heart";
-          this.getData[i].likeIconColor = "red";
-        } else {
-          this.getData[i].likeIcon = "mdi-heart-outline";
-          this.getData[i].likeIconColor = "black";
-        }
+        this.getData[i].likeIcon = "mdi-heart-outline";
+        this.getData[i].likeIconColor = "black";
       }
     },
+  },
 
-    selectNumber(i) {
-      this.getData[i].showNumber += this.number;
-      if (this.getData[i].showNumber < 0) {
-        this.getData[i].showNumber = 0;
-      }
-      this.number = 0;
-    },
+  selectNumber(i) {
+    this.getData[i].showNumber += this.number;
+    if (this.getData[i].showNumber < 0) {
+      this.getData[i].showNumber = 0;
+    }
+    this.number = 0;
   },
 
   beforeMount() {
