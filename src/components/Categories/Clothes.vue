@@ -3,12 +3,7 @@
     <v-col cols="10">
       <v-container>
         <v-row justify="center">
-          <v-col
-            cols="3"
-            v-for="(item, i) in getData.slice(0, 32)"
-            :key="item"
-            class="mb-4"
-          >
+          <v-col cols="3" v-for="(item, i) in getData" :key="item" class="mb-4">
             <v-card height="355" width="100%" elevation="3">
               <v-carousel
                 height="180"
@@ -138,10 +133,10 @@ export default {
   },
   methods: {
     onShowClick(i) {
-      if ((this.getData[i].showIcon == "mdi-chevron-right")) {
+      if (this.getData[i].showIcon == "mdi-chevron-right") {
         this.getData[i].showIcon = "mdi-chevron-down";
         this.getData[i].showDetails = true;
-      } else if ((this.getData[i].showIcon == "mdi-chevron-down")) {
+      } else {
         this.getData[i].showIcon = "mdi-chevron-right";
         this.getData[i].showDetails = false;
       }
@@ -149,27 +144,29 @@ export default {
     onIconClick(i) {
       if (this.getData[i].likeIconColor == "black") {
         this.getData[i].likeIcon = "mdi-heart";
-        this.getData[i].likeIconColor = "red";
+        this.getData[i].likeIconColor = "purple-lighten-1";
       } else {
         this.getData[i].likeIcon = "mdi-heart-outline";
         this.getData[i].likeIconColor = "black";
       }
     },
-  },
 
-  selectNumber(i) {
-    this.getData[i].showNumber += this.number;
-    if (this.getData[i].showNumber < 0) {
-      this.getData[i].showNumber = 0;
-    }
-    this.number = 0;
+    selectNumber(i) {
+      this.getData[i].showNumber += this.number;
+      if (this.getData[i].showNumber < 0) {
+        this.getData[i].showNumber = 0;
+      }
+      this.number = 0;
+    },
   },
 
   beforeMount() {
     axios
       .get("https://api.escuelajs.co/api/v1/products")
       .then((response) => {
-        this.getData = response.data.filter((x) => x.category.id == 1);
+        this.getData = response.data
+          .filter((x) => x.category.id == 1)
+          .splice(0, 32);
         for (let i = 0; i < this.getData.length; i++) {
           this.getData[i].showIcon = "mdi-chevron-right";
           this.getData[i].showDetails = false;
@@ -179,16 +176,6 @@ export default {
         }
       })
       .catch((e) => console.log("hata"));
-  },
-  watch: {
-    number: {
-      handler(newValue, oldValue) {
-        if (newValue < 0) {
-          this.number = 0;
-        }
-      },
-      deep: true,
-    },
   },
 };
 </script>
