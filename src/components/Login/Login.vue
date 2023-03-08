@@ -33,7 +33,7 @@
                 >
               </v-col>
               <v-col cols="3">
-                <v-btn color=" text-white " class="mb-10 bg-purple-darken-4">
+                <v-btn color=" text-white " class="mb-10 bg-purple-darken-4" @click="showLogin=false">
                   <router-link to="/" class="text-decoration-none text-white">
                     Sing in
                   </router-link>
@@ -56,9 +56,6 @@ export default {
     };
   },
   mounted() {
-    axios
-      .get("https://exe-shopping-default-rtdb.firebaseio.com/users.json")
-      .then.catch((e) => console.log("hata"));
   },
 };
 </script>

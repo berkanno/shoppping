@@ -13,7 +13,7 @@
       </v-row>
     </v-container>
     <v-row>
-      <v-col cols="12">
+      <v-col cols="12" class="mt-16">
         <v-card flat class="mt-10">
           <v-carousel hide-delimiters height="400">
             <v-carousel-item v-for="item in homeCategories" :key="item">
@@ -22,10 +22,10 @@
                   <v-col cols="6">
                     <v-card height="100%" flat>
                       <v-carousel
-                        height="100%"
+                        height="350"
                         show-arrows="hover"
                         hide-delimiters
-                        progress="white"
+                        progress="purple-darken-3"
                       >
                         <v-carousel-item v-for="value in item.img" :key="value">
                           <v-img :src="value" cover> </v-img>
@@ -38,12 +38,15 @@
                     <v-hover v-slot="{ isHovering, props }">
                       <v-card
                         class="cardHover"
-                        height="100%"
+                        height="350"
                         :elevation="isHovering ? 12 : 2"
                         :class="{ 'on-hover': isHovering }"
                         v-bind="props"
                       >
-                        <router-link :to="item.routerlink" class="text-decoration-none">
+                        <router-link
+                          :to="item.routerlink"
+                          class="text-decoration-none"
+                        >
                           <v-card
                             height="100%"
                             class="bg-purple-lighten-1 d-flex align-center justify-center"

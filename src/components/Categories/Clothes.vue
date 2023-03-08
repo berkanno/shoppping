@@ -1,5 +1,6 @@
 <template>
   <v-row justify="center">
+    <v-col cols="12">{{ counter }}</v-col>
     <v-col cols="10">
       <v-container>
         <v-row justify="center">
@@ -123,11 +124,14 @@
 </template>
 <script>
 import axios from "axios";
+
 export default {
+  name: "calıs",
   data() {
     return {
       getData: [],
       showCounter: 3,
+      Dcounter: 20,
       number: 0,
     };
   },
