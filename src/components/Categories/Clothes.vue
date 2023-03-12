@@ -3,7 +3,16 @@
     <v-col cols="10">
       <v-container>
         <v-row justify="center">
-          <v-col cols="3" v-for="(item, i) in getData" :key="item" class="mb-4">
+          <v-col
+            cols="12"
+            sm="6"
+            md="3"
+            lg="3"
+            xl="4"
+            v-for="(item, index) in shopItems[0]"
+            :key="item"
+            class="mb-4"
+          >
             <v-card height="355" width="100%" elevation="3">
               <v-carousel
                 height="180"
@@ -42,7 +51,7 @@
                           end
                           class="mt-3"
                           :color="item.likeIconColor"
-                          @click="($event) => onIconClick(i)"
+                          @click="($event) => onLikeIconClick(index, 0)"
                         ></v-icon>
                       </v-col>
                     </v-row>
@@ -54,8 +63,8 @@
                   width="100%"
                   height="100%"
                   color="purple-darken-4"
-                  @click="($event) => onShowClick(i)"
                   variant="outlined"
+                  @click="($event) => onShowIconClick(index, 0)"
                 >
                   <v-icon
                     color="purple-darken-4"
@@ -136,55 +145,30 @@ export default {
     };
   },
   computed: {
-    ...mapState(useAppStore, ["shoppingCount"]),
+    ...mapState(useAppStore, ["shopItems"]),
   },
   methods: {
-    ...mapActions(useAppStore, ["addShopItem"]),
-    onShowClick(i) {
-      if (this.getData[i].showIcon == "mdi-chevron-right") {
-        this.getData[i].showIcon = "mdi-chevron-down";
-        this.getData[i].showDetails = true;
-      } else {
-        this.getData[i].showIcon = "mdi-chevron-right";
-        this.getData[i].showDetails = false;
-      }
-    },
-    onIconClick(i) {
-      if (this.getData[i].likeIconColor == "black") {
-        this.getData[i].likeIcon = "mdi-heart";
-        this.getData[i].likeIconColor = "purple-lighten-1";
-      } else {
-        this.getData[i].likeIcon = "mdi-heart-outline";
-        this.getData[i].likeIconColor = "black";
-      }
-    },
+    ...mapActions(
+      useAppStore,
+      ["addShopItem", "onLikeIconClickStore", "onShowIconClickStore"],
+    ),
 
+    onLikeIconClick(index, arrayIndex) {
+      this.onLikeIconClickStore(index, arrayIndex);
+    },
+    onShowIconClick(index, arrayIndex) {
+      this.onShowIconClickStore(index, arrayIndex);
+    },
     selectNumber(i) {
       this.getData[i].showNumber += this.number;
       if (this.getData[i].showNumber < 0) {
         this.getData[i].showNumber = 0;
       }
-      this.number = 0;
-      this.addShopItem(this.getData.filter((x) => x.showNumber != 0));
     },
   },
 
   beforeMount() {
-    axios
-      .get("https://api.escuelajs.co/api/v1/products")
-      .then((response) => {
-        this.getData = response.data
-          .filter((x) => x.category.id == 1)
-          .splice(0, 32);
-        for (let i = 0; i < this.getData.length; i++) {
-          this.getData[i].showIcon = "mdi-chevron-right";
-          this.getData[i].showDetails = false;
-          this.getData[i].showNumber = 0;
-          this.getData[i].likeIcon = "mdi-heart-outline";
-          this.getData[i].likeIconColor = "black";
-        }
-      })
-      .catch((e) => console.log("hata"));
+    this.addShopItem(1, 0);
   },
 };
 </script>
