@@ -47,5 +47,11 @@ export const useAppStore = defineStore("app", {
         this.shopItems[arrayIndex][index].showDetails = false;
       }
     },
+    onAddOrNotAdd(index, arrayIndex, value) {
+      this.shopItems[arrayIndex][index].showNumber += value;
+      if (this.shopItems[arrayIndex][index].showNumber < 0) {
+        this.shopItems[arrayIndex][index].showNumber = 0;
+      }
+    },
   },
 });

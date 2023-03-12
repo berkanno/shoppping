@@ -95,14 +95,14 @@
                               ><v-btn
                                 size="40"
                                 color="purple-darken-4"
-                                @click="($event) => selectNumber(i, number++)"
+                                @click="($event) => selectNumber(index, 0, 1)"
                               >
                                 <v-icon icon="mdi-plus"></v-icon> </v-btn
                             ></v-col>
                             <v-col cols="5">
                               <v-card width="100%" flat>
                                 <v-card-text
-                                  class="text-center text-h4 text-purple-darken-1"
+                                  class="text-center text-h6 text-purple-darken-1"
                                   >{{ item.showNumber }}</v-card-text
                                 >
                               </v-card>
@@ -111,7 +111,7 @@
                               <v-btn
                                 size="40"
                                 color="purple-darken-4"
-                                @click="($event) => selectNumber(i, number--)"
+                                @click="($event) => selectNumber(index, 0, -1)"
                               >
                                 <v-icon icon="mdi-minus"></v-icon>
                               </v-btn>
@@ -131,39 +131,28 @@
   </v-row>
 </template>
 <script>
-import axios from "axios";
 import { mapActions } from "pinia";
 import { useAppStore } from "@/store/app";
 import { mapState } from "pinia";
 export default {
-  data() {
-    return {
-      getData: [],
-      showCounter: 3,
-      Dcounter: 20,
-      number: 0,
-    };
-  },
   computed: {
     ...mapState(useAppStore, ["shopItems"]),
   },
   methods: {
-    ...mapActions(
-      useAppStore,
-      ["addShopItem", "onLikeIconClickStore", "onShowIconClickStore"],
-    ),
-
+    ...mapActions(useAppStore, [
+      "addShopItem",
+      "onLikeIconClickStore",
+      "onShowIconClickStore",
+      "onAddOrNotAdd",
+    ]),
     onLikeIconClick(index, arrayIndex) {
       this.onLikeIconClickStore(index, arrayIndex);
     },
     onShowIconClick(index, arrayIndex) {
       this.onShowIconClickStore(index, arrayIndex);
     },
-    selectNumber(i) {
-      this.getData[i].showNumber += this.number;
-      if (this.getData[i].showNumber < 0) {
-        this.getData[i].showNumber = 0;
-      }
+    selectNumber(index, arrayIndex, number) {
+      this.onAddOrNotAdd(index, arrayIndex, number);
     },
   },
 
