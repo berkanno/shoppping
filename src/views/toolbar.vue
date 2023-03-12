@@ -1,68 +1,66 @@
 <template>
-  <v-toolbar class="py-2 pt-6" flat color="white">
-    <v-row>
-      <v-col cols="2">
-        <v-card class="text-purple-darken-1 ml-5" flat>
-          <v-card-title class="text-h3">eXe</v-card-title>
-        </v-card>
-      </v-col>
+  <v-toolbar class="py-2" flat color="white">
+    <v-col cols="2">
+      <v-card class="text-purple-darken-4 text-center" flat>
+        <v-card-title class="text-h2 font-weight-medium">eXe</v-card-title>
+      </v-card>
+    </v-col>
 
-      <v-col cols="10">
-        <v-row justify="end">
-          <v-col cols="3" class="mt-2">
-          <v-row justify="center" class=" mr-4">
-           <router-link to="/" class="text-decoration-none">
-           <v-icon icon="mdi-home-outline"
-           size="50"
-           color="purple-darken-3"
-           end>
-
-           </v-icon>
-           </router-link>
-
-            <router-link to="/favourites" class="text-decoration-none px-4">
-              <v-icon
-                icon="mdi-shopping-outline"
-                size="45"
-                color="purple-darken-3"
-                end
-              >
-              </v-icon>
-            </router-link>
-            <router-link to="/shopcounter" class="text-decoration-none">
-              <v-icon
-                icon="mdi-heart-outline"
-                size="45"
-                color="purple-darken-2"
-                end
-                
-              ></v-icon>
-            </router-link>
-            
+    <v-col cols="6">
+      <v-row justify="end">
+        <v-col cols="2">
+          <router-link to="/" class="text-decoration-none">
+            <v-btn color="purple-darken-3">
+              <v-icon icon="mdi-home" size="40"></v-icon>
+            </v-btn>
+          </router-link>
+        </v-col>
+        <v-col cols="2">
+          <v-btn color="purple-darken-4">
+            <v-icon icon="mdi-shopping" size="40"></v-icon>
+            <v-row>
+              <v-col class="text-h6"> 4 </v-col>
             </v-row>
-          </v-col>
-          <v-col cols="1">
-            <v-btn class="bg-purple-darken-1 font-weight-medium">
-              <router-link to="/login" class="text-white text-decoration-none">
-                login
-              </router-link>
-            </v-btn>
-          </v-col>
-          <v-col cols="2">
-            <v-btn class="font-weight-bold">
-              <router-link
-                to="/singup"
-                class="text-decoration-none text-purple-lighten-1"
-              >
-                Sing up
-              </router-link>
-            </v-btn>
-          </v-col>
-        </v-row>
+          </v-btn>
+        </v-col>
+        <v-col cols="3">
+          <v-btn color="purple-darken-4">
+            <v-icon icon="mdi-heart" size="40"></v-icon>
+            <v-row>
+              <v-col class="text-h6" v-if="likeNumber != 0"> {{ likeNumber }} </v-col>
+            </v-row>
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-col>
+
+    <v-row justify="end">
+      <v-col cols="4" class="text-end">
+        <router-link to="/login" class="text-decoration-none">
+          <v-btn class="bg-purple-darken-4">
+            <v-row>
+              <v-col class="mr-2">Login</v-col>
+            </v-row>
+            <v-icon icon="mdi-login"></v-icon>
+          </v-btn>
+        </router-link>
+      </v-col>
+      <v-col cols="3">
+        <router-link to="/singup" class="text-decoration-none">
+          <v-btn color="purple-darken-4 text-overline" size="40">
+            singup
+          </v-btn>
+        </router-link>
       </v-col>
     </v-row>
   </v-toolbar>
 </template>
 <script>
-export default {};
+import { useAppStore } from '@/store/app';
+import { mapState } from 'pinia';
+export default {
+  computed: {
+    ...mapState(useAppStore, ["likeNumber"])
+  }
+};
 </script>

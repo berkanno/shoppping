@@ -1,8 +1,8 @@
 <template>
   <v-container>
     <v-row>
-      <v-col cols="12">
-        {{ shoppingCount }}
+      <v-col cols="3">
+        
       </v-col>
     </v-row>
   </v-container>
@@ -11,16 +11,22 @@
 import { useAppStore } from "@/store/app";
 import { mapState } from "pinia";
 export default {
-  methods: {
-    ...mapState(useAppStore, ["shoppingCount"]),
+  data() {
+    return {
+      favouriteProducts: [],
+    };
   },
-  watch: {
-    shoppingCount: {
-      handler(newValue, oldValue) {
-        console.log(newValue);
-      },
-      deep: true,
-    },
+  computed: {
+    ...mapState(useAppStore, ["shopItems"]),
+  },
+  beforeMount() {
+    for (let i = 0; i < this.shopItems.length; i++) {
+      this.favouriteProducts.push(
+        this.shopItems[i].filter((x) => (x.likeIconColor == "purple-darken-3"))
+      );
+    };
+    console.log(this.favouriteProducts);
+    console.log(this.shopItems)
   },
 };
 </script>

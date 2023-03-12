@@ -5,7 +5,7 @@ import axios from "axios";
 export const useAppStore = defineStore("app", {
   state: () => ({
     shopItems: [],
-    newState: "",
+    likeNumber: 0,
   }),
   getters: {
     getState(state) {
@@ -24,18 +24,23 @@ export const useAppStore = defineStore("app", {
           this.shopItems[arrayIndex][i].showNumber = 0;
           this.shopItems[arrayIndex][i].likeIcon = "mdi-heart-outline";
           this.shopItems[arrayIndex][i].likeIconColor = "black";
-        }
+        };
+                localStorage.setItem(
+                  "Kaydedildi",
+                  JSON.stringify(this.shopItems)
+                );
       });
     },
     onLikeIconClickStore(index, arrayIndex) {
       if (this.shopItems[arrayIndex][index].likeIconColor == "black") {
         this.shopItems[arrayIndex][index].likeIconColor = "purple-darken-3";
         this.shopItems[arrayIndex][index].likeIcon = "mdi-heart";
-      } else if (
-        this.shopItems[arrayIndex][index].likeIconColor == "purple-darken-3"
-      ) {
+
+        localStorage.setItem("likeIcon", JSON.stringify(this.shopItems));
+      } else {
         this.shopItems[arrayIndex][index].likeIconColor = "black";
         this.shopItems[arrayIndex][index].likeIcon = "mdi-heart-outline";
+        localStorage.setItem("likeIcon", JSON.stringify(this.shopItems));
       }
     },
     onShowIconClickStore(index, arrayIndex) {
