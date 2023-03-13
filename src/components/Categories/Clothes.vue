@@ -95,7 +95,9 @@
                               ><v-btn
                                 size="40"
                                 color="purple-darken-4"
-                                @click="($event) => selectNumber(index, 0, 1)"
+                                @click="
+                                  ($event) => selectNumber(index, 0, 1, true)
+                                "
                               >
                                 <v-icon icon="mdi-plus"></v-icon> </v-btn
                             ></v-col>
@@ -111,7 +113,9 @@
                               <v-btn
                                 size="40"
                                 color="purple-darken-4"
-                                @click="($event) => selectNumber(index, 0, -1)"
+                                @click="
+                                  ($event) => selectNumber(index, 0, -1, false)
+                                "
                               >
                                 <v-icon icon="mdi-minus"></v-icon>
                               </v-btn>
@@ -156,7 +160,7 @@ export default {
     },
   },
 
-  created() {
+  beforeMount() {
     this.addShopItem(1, 0);
   },
 };

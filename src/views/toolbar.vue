@@ -19,7 +19,7 @@
           <v-btn color="purple-darken-4">
             <v-icon icon="mdi-shopping" size="40"></v-icon>
             <v-row>
-              <v-col class="text-h6"> 6</v-col>
+              <v-col class="text-h6"> {{ showCounter }}</v-col>
             </v-row>
           </v-btn>
         </v-col>
@@ -27,7 +27,9 @@
           <v-btn color="purple-darken-4">
             <v-icon icon="mdi-heart" size="40"></v-icon>
             <v-row>
-              <v-col class="text-h6" v-if="likeNumber != 0"> {{ likeNumber }} </v-col>
+              <v-col class="text-h6" v-if="likeNumber != 0">
+                {{ likeNumber }}
+              </v-col>
             </v-row>
           </v-btn>
         </v-col>
@@ -60,7 +62,7 @@ import { useAppStore } from "@/store/app";
 import { mapState } from "pinia";
 export default {
   computed: {
-    ...mapState(useAppStore, ["likeNumber"]),
+    ...mapState(useAppStore, ["likeNumber", "showCounter"]),
   },
 };
 </script>

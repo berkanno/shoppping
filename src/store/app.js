@@ -8,14 +8,15 @@ export const useAppStore = defineStore("app", {
       localStorage.getItem("arrayData") == ""
         ? []
         : JSON.parse(localStorage.getItem("arrayData")),
+
+    showCounter:
+      localStorage.getItem("counter") == 0
+        ? 0
+        : JSON.parse(localStorage.getItem("counter")),
     likeNumber:
       localStorage.getItem("likeNumberStore") == 0
         ? 0
         : JSON.parse(localStorage.getItem("likeNumberStore")),
-    productCounter:
-      localStorage.getItem("productCounterStore") == 0
-        ? 0
-        : JSON.parse(localStorage.getItem("productCounterStore")),
   }),
   getters: {
     getState(state) {
@@ -38,6 +39,7 @@ export const useAppStore = defineStore("app", {
               this.shopItems[arrayIndex][i].showNumber = 0;
               this.shopItems[arrayIndex][i].likeIcon = "mdi-heart-outline";
               this.shopItems[arrayIndex][i].likeIconColor = "black";
+              this.shopItems[arrayIndex][i].getNumberCount = false;
               localStorage.setItem("arrayData", JSON.stringify(this.shopItems));
             }
           });
@@ -67,20 +69,22 @@ export const useAppStore = defineStore("app", {
       }
       localStorage.setItem("arrayData", JSON.stringify(this.shopItems));
     },
-    onAddOrNotAdd(index, arrayIndex, value) {
+    onAddOrNotAdd(index, arrayIndex, value, getAnswer) {
       this.shopItems[arrayIndex][index].showNumber += value;
       if (this.shopItems[arrayIndex][index].showNumber < 0) {
         this.shopItems[arrayIndex][index].showNumber = 0;
       }
-      this.productCount(this.shopItems[arrayIndex][index].showNumber);
+      this.productCount(index, arrayIndex, getAnswer);
       localStorage.setItem("arrayData", JSON.stringify(this.shopItems));
     },
-    productCount(value) {
-      if (value == 0) {
-        this.productCounter--;
-      } else if (value == 1) {
-        this.productCount++;
+    productCount(index, arrayIndex, value) {
+      this.shopItems[arrayIndex][index].getNumberCount = value;
+      if (this.shopItems[arrayIndex][i].getNumberCount == true) {
+        this.showCounter++;
+      } else {
+        this.showCounter--;
       }
+      localStorage.setItem("counter", JSON.stringify(this.showCounter));
     },
   },
 });
