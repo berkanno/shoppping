@@ -147,7 +147,6 @@ export default {
     ]),
     onLikeIconClick(index, arrayIndex) {
       this.onLikeIconClickStore(index, arrayIndex);
-      localStorage.setItem("theme", arrayIndex);
     },
     onShowIconClick(index, arrayIndex) {
       this.onShowIconClickStore(index, arrayIndex);
