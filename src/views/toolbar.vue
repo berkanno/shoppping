@@ -62,7 +62,7 @@ import { useAppStore } from "@/store/app";
 import { mapState } from "pinia";
 export default {
   computed: {
-    ...mapState(useAppStore, ["likeNumber", "showCounter"]),
+    ...mapState(useAppStore, ["likeNumber","showCounter"]),
   },
 };
 </script>

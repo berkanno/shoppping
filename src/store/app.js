@@ -9,10 +9,7 @@ export const useAppStore = defineStore("app", {
         ? []
         : JSON.parse(localStorage.getItem("arrayData")),
 
-    showCounter:
-      localStorage.getItem("counter") == 0
-        ? 0
-        : JSON.parse(localStorage.getItem("counter")),
+    showCounter: localStorage.getItem("counter"),
     likeNumber:
       localStorage.getItem("likeNumberStore") == 0
         ? 0
@@ -57,7 +54,7 @@ export const useAppStore = defineStore("app", {
         this.likeNumber--;
       }
       localStorage.setItem("arrayData", JSON.stringify(this.shopItems));
-      localStorage.setItem("likeNumberStore", JSON.stringify(this.likeNumber));
+      localStorage.setItem("likeNumberStore", this.likeNumber);
     },
     onShowIconClickStore(index, arrayIndex) {
       if (this.shopItems[arrayIndex][index].showIcon == "mdi-chevron-right") {
@@ -79,12 +76,12 @@ export const useAppStore = defineStore("app", {
     },
     productCount(index, arrayIndex, value) {
       this.shopItems[arrayIndex][index].getNumberCount = value;
-      if (this.shopItems[arrayIndex][i].getNumberCount == true) {
+      if (this.shopItems[arrayIndex][index].getNumberCount) {
         this.showCounter++;
       } else {
         this.showCounter--;
       }
-      localStorage.setItem("counter", JSON.stringify(this.showCounter));
+      localStorage.setItem("counter", this.showCounter);
     },
   },
 });
