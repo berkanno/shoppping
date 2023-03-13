@@ -5,13 +5,9 @@ import axios from "axios";
 export const useAppStore = defineStore("app", {
   state: () => ({
     shopItems:
-      localStorage.getItem("Kaydedildi") == ""
+      localStorage.getItem("arrayData") == ""
         ? []
-        : JSON.parse(localStorage.getItem("Kaydedildi")),
-    likeNumber:
-      localStorage.getItem("likeNumber") == ""
-        ? 0
-        : JSON.parse(localStorage.getItem("likeNumberLocal")),
+        : JSON.parse(localStorage.getItem("arrayData")),
   }),
   getters: {
     getState(state) {
@@ -20,7 +16,8 @@ export const useAppStore = defineStore("app", {
   },
   actions: {
     addShopItem(value, arrayIndex) {
-      if (this.shopItems[arrayIndex] == "") {
+      if (this.shopItems[arrayIndex] == undefined) {
+        console.log("çalışıyor");
         axios
           .get("https://api.escuelajs.co/api/v1/products")
           .then((response) => {
@@ -33,26 +30,21 @@ export const useAppStore = defineStore("app", {
               this.shopItems[arrayIndex][i].showNumber = 0;
               this.shopItems[arrayIndex][i].likeIcon = "mdi-heart-outline";
               this.shopItems[arrayIndex][i].likeIconColor = "black";
+              localStorage.setItem("arrayData", JSON.stringify(this.shopItems));
             }
-            localStorage.setItem(
-              "Kaydedildi",
-              JSON.stringify(this.shopItems[arrayIndex])
-            );
           });
       }
     },
+
     onLikeIconClickStore(index, arrayIndex) {
       if (this.shopItems[arrayIndex][index].likeIconColor == "black") {
         this.shopItems[arrayIndex][index].likeIconColor = "purple-darken-3";
         this.shopItems[arrayIndex][index].likeIcon = "mdi-heart";
-        this.likeNumber++;
       } else {
         this.shopItems[arrayIndex][index].likeIconColor = "black";
         this.shopItems[arrayIndex][index].likeIcon = "mdi-heart-outline";
-        this.likeNumber--;
       }
-      localStorage.setItem("Kaydedildi", JSON.stringify(this.shopItems));
-      localStorage.setItem("likeNumberLocal", JSON.stringify(this.likeNumber));
+      localStorage.setItem("arrayData", JSON.stringify(this.shopItems));
     },
     onShowIconClickStore(index, arrayIndex) {
       if (this.shopItems[arrayIndex][index].showIcon == "mdi-chevron-right") {
@@ -62,15 +54,14 @@ export const useAppStore = defineStore("app", {
         this.shopItems[arrayIndex][index].showIcon = "mdi-chevron-right";
         this.shopItems[arrayIndex][index].showDetails = false;
       }
-      localStorage.setItem("Kaydedildi", JSON.stringify(this.shopItems));
+      localStorage.setItem("arrayData", JSON.stringify(this.shopItems));
     },
     onAddOrNotAdd(index, arrayIndex, value) {
       this.shopItems[arrayIndex][index].showNumber += value;
       if (this.shopItems[arrayIndex][index].showNumber < 0) {
         this.shopItems[arrayIndex][index].showNumber = 0;
-      } else if (this.shopItems[arrayIndex][index].showNumber == 0) {
-      } else if (this.shopItems[arrayIndex][index].showNumber == 1) {
       }
+      localStorage.setItem("arrayData", JSON.stringify(this.shopItems));
     },
   },
 });

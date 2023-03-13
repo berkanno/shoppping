@@ -27,9 +27,7 @@
           <v-btn color="purple-darken-4">
             <v-icon icon="mdi-heart" size="40"></v-icon>
             <v-row>
-              <v-col class="text-h6" v-if="likeNumber != 0">
-                {{ likeNumber }}
-              </v-col>
+              <v-col class="text-h6"> </v-col>
             </v-row>
           </v-btn>
         </v-col>
