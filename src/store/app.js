@@ -8,6 +8,14 @@ export const useAppStore = defineStore("app", {
       localStorage.getItem("arrayData") == ""
         ? []
         : JSON.parse(localStorage.getItem("arrayData")),
+    likeNumber:
+      localStorage.getItem("likeNumberStore") == 0
+        ? 0
+        : JSON.parse(localStorage.getItem("likeNumberStore")),
+    productCounter:
+      localStorage.getItem("productCounterStore") == 0
+        ? 0
+        : JSON.parse(localStorage.getItem("productCounterStore")),
   }),
   getters: {
     getState(state) {
@@ -40,11 +48,14 @@ export const useAppStore = defineStore("app", {
       if (this.shopItems[arrayIndex][index].likeIconColor == "black") {
         this.shopItems[arrayIndex][index].likeIconColor = "purple-darken-3";
         this.shopItems[arrayIndex][index].likeIcon = "mdi-heart";
+        this.likeNumber++;
       } else {
         this.shopItems[arrayIndex][index].likeIconColor = "black";
         this.shopItems[arrayIndex][index].likeIcon = "mdi-heart-outline";
+        this.likeNumber--;
       }
       localStorage.setItem("arrayData", JSON.stringify(this.shopItems));
+      localStorage.setItem("likeNumberStore", JSON.stringify(this.likeNumber));
     },
     onShowIconClickStore(index, arrayIndex) {
       if (this.shopItems[arrayIndex][index].showIcon == "mdi-chevron-right") {
@@ -61,7 +72,15 @@ export const useAppStore = defineStore("app", {
       if (this.shopItems[arrayIndex][index].showNumber < 0) {
         this.shopItems[arrayIndex][index].showNumber = 0;
       }
+      this.productCount(this.shopItems[arrayIndex][index].showNumber);
       localStorage.setItem("arrayData", JSON.stringify(this.shopItems));
+    },
+    productCount(value) {
+      if (value == 0) {
+        this.productCounter--;
+      } else if (value == 1) {
+        this.productCount++;
+      }
     },
   },
 });
